@@ -152,6 +152,51 @@ wallets:
         return jsonify({"success": False, "message": "An error occurred.", "details": str(e)}), 500
 
 
+@app.route('/scan', methods=['POST'])
+def scan():
+    # try:
+    #     # Get the Solidity code from the request
+    #     solidity_code = request.json.get('code')
+    #     if not solidity_code:
+    #         return jsonify({"error": "Solidity code is required."}), 400
+
+    #     # Create a temporary directory to store the Solidity file
+    #     temp_dir = os.path.join(os.getcwd(), "temp_solidity")
+    #     os.makedirs(temp_dir, exist_ok=True)
+
+    #     # Create the Solidity file
+    #     solidity_file_path = os.path.join(temp_dir, "temp_contract.sol")
+    #     with open(solidity_file_path, "w") as f:
+    #         f.write(solidity_code)
+
+    #     # Run Slither on the Solidity file
+    #     slither_command = ['slither', solidity_file_path]
+    #     result = subprocess.run(slither_command, capture_output=True, text=True)
+
+    #     # Clean up the temporary Solidity file
+    #     os.remove(solidity_file_path)
+
+    #     # Process Slither output
+    #     slither_output = result.stdout if result.returncode == 0 else result.stderr
+
+    #     # Example: Extract specific data or perform custom processing
+    #     # For example, you could extract the first line as an important message:
+    #     important_message = slither_output.splitlines()[0] if slither_output else "No output"
+
+    #     # Print the important message (you may want to log it instead)
+    #     print(important_message)
+
+    #     # Return the output from Slither and the important message
+    #     return jsonify({
+    #         "success": result.returncode == 0,
+    #         "output": slither_output,
+    #         "important_message": important_message
+    #     })
+
+    # except Exception as e:
+    #     return jsonify({"error": str(e)}), 500
+    print('hi')
+    return jsonify({"hi":"bye"})
 
 
 @app.route('/compile', methods=['POST'])
@@ -272,5 +317,7 @@ def generate_response():
 def getWish():
     print("gurudev pls help us win this.")
 
+
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

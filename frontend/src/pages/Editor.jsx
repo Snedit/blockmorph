@@ -150,6 +150,7 @@ function EditorPage() {
     console.log(code); // Print the editor value
     // Deploy contract Codee... Time lagbe korte
   };*/
+
   const deployContract = () => {
     console.log(code);
   };
@@ -163,6 +164,17 @@ function EditorPage() {
       setIsDisabled(true);
     }
   };
+
+  async function checkSlitherVul(solidityCode) {
+    try {
+      const response = await instance.post("/scan", {
+        code: solidityCode,
+      });
+      console.log("Slither analysis result:", response.data);
+    } catch (error) {
+      console.error("Error during Slither analysis:", error);
+    }
+  }
 
   async function handleDownloadHardhat() {
     try {
@@ -449,7 +461,7 @@ function EditorPage() {
                 fullWidth
                 isDisabled={isDisabled}
                 icon={<LuSplitSquareHorizontal color="black" />}
-                // onClick={() => checkSlitherVul()}
+                onClick={() => checkSlitherVul(code)}
               />
               <YellowButton
                 text={loading ? "Loading...." : "Get Brownie"}
@@ -590,16 +602,16 @@ function EditorPage() {
               </Box>
             </Modal>
             <GradientButton
-      icon={<GrDeploy />}
-      onClick={() => navigate("/doc")}
-      text="Go To DOCUMENTS page"
-      fullWidth
-      // isDisabled={isDisabled}
-      styles={{
-        borderRadius: 1,
-        height: "2.5rem",
-      }}
-    />
+              icon={<GrDeploy />}
+              onClick={() => navigate("/doc")}
+              text="Go To DOCUMENTS page"
+              fullWidth
+              // isDisabled={isDisabled}
+              styles={{
+                borderRadius: 1,
+                height: "2.5rem",
+              }}
+            />
           </Box>
         </Box>
       </Box>
