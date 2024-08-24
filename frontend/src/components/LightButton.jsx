@@ -1,0 +1,61 @@
+import { Box, Button } from "@mui/material";
+
+function LightButton({ text, icon, ...rest }) {
+  return (
+    <Button
+      startIcon={
+        (
+          <Box
+            sx={{
+              borderRadius: "8px",
+       background: `var(--brand-mix, conic-gradient(
+      from 180deg at 50% 50%,
+      #0047ab 4.67deg,     /* Dark Blue */
+      #005bb5 23.65deg,    /* Slightly Lighter Blue */
+      #0073e6 44.85deg,    /* Bright Blue */
+      #0099ff 72.46deg,    /* Sky Blue */
+      #00bfff 82.50deg,    /* Light Sky Blue */
+      #00e5ff 127.99deg,   /* Light Cyan */
+      #00ffff 160.97deg,   /* Cyan */
+      #1affff 178.46deg,   /* Very Light Cyan */
+      #33ccff 189.48deg,   /* Light Blue */
+      #3399ff 202.95deg,   /* Strong Blue */
+      #3366ff 230.66deg,   /* Rich Blue */
+      #3333ff 251.35deg,   /* Deep Blue */
+      #2929ff 276.44deg,   /* Deeper Blue */
+      #1f1fff 306.45deg,   /* Deeper Blue */
+      #1a1aff 331.68deg    /* Deepest Blue */
+    )
+  )`,
+              px: 1,
+            }}
+          >
+            <div style={{ color: 'black' }}>
+              {icon}
+            </div>
+          </Box>
+        ) || null
+      }
+      disableElevation
+      sx={{
+        borderRadius: 1,
+        border: "2px solid #2E3C51",
+        background: 'rgba(18, 65, 105, 0.8)',
+        boxShadow: "0px 0px 13px 0px darkblue",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        '&:hover': {
+              textShadow: '0px 0px 10px lightpink',
+              background: 'darkblue',
+            },
+      }}
+      variant="contained"
+      {...rest}
+    >
+      {text && text}
+    </Button>
+  );
+}
+
+export default LightButton;
