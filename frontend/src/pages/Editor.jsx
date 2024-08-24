@@ -146,6 +146,23 @@ function EditorPage() {
     localStorage.setItem("solCode", JSON.stringify(code));
   }, [code]);
 
+  useEffect(() => {
+    const updateSummary = async () => {
+      if (code) {
+        const genAI = new GoogleGenerativeAI(
+          "AIzaSyD4UE6-0QdB1QCtxXE-1k7EQv-3VHQJP1Q"
+        );
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const summaryPrompt = `Summarize the key features and functions of the following Solidity smart contract code in a concise manner. Code: ${code}`;
+        const summaryResult = await model.generateContent(summaryPrompt);
+        const summaryResponse = await summaryResult.response;
+        const generatedSummary = await summaryResponse.text();
+        setSummary(generatedSummary);
+      }
+    };
+
+    updateSummary();
+  }, [code]);
   /*const  deployContract = () => {
     console.log(code); // Print the editor value
     // Deploy contract Codee... Time lagbe korte
