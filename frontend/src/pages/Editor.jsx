@@ -18,7 +18,7 @@ import YellowButton from "../components/YellowButton";
 import { FaCode, FaDownload } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 // import { instance } from "../../config/axios";
 import { encode } from "base-64";
 import Markdown from "react-markdown";
@@ -83,7 +83,7 @@ function EditorPage() {
   const [code, setCode] = useState("");
   const [summary, setSummary] = useState("");
   const [tabsLayout, setTabsLayout] = useState([25, 45, 30]);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [contractName, setContractName] = useState("");
   const isTest = React.useContext(Context);
   const [ABI, setABI] = useState();
@@ -91,7 +91,7 @@ function EditorPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contractAdd, setContractAdd] = useState();
   const [currentStep, setCurrentStep] = useState(0);
-
+  const navigate = useNavigate();
   //For Generate Sol Code
   const { idea } = useParams();
   const [additionalFeatures, setAdditionalFeatures] = useState("");
@@ -480,7 +480,7 @@ function EditorPage() {
                 pt: 2,
               }}
             >
-              <Typography fontSize={18} fontWeight="600" align="center">
+              <Typography fontSize={22} fontWeight="600" align="center">
                 Steps to test it on RemixIDE
               </Typography>
               <Box
@@ -590,16 +590,16 @@ function EditorPage() {
               </Box>
             </Modal>
             <GradientButton
-              icon={<GrDeploy />}
-              onClick={deployContract}
-              text="Magic Deploy"
-              fullWidth
-              isDisabled={isDisabled}
-              styles={{
-                borderRadius: 1,
-                height: "2.5rem",
-              }}
-            />
+      icon={<GrDeploy />}
+      onClick={() => navigate("/doc")}
+      text="Go To DOCUMENTS page"
+      fullWidth
+      // isDisabled={isDisabled}
+      styles={{
+        borderRadius: 1,
+        height: "2.5rem",
+      }}
+    />
           </Box>
         </Box>
       </Box>

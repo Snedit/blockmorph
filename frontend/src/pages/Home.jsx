@@ -157,7 +157,7 @@ if (load)
     <div className='blue__gradient'>
     <Box
       display="flex"
-      justifyContent="space-between"
+      justifyContent="space-around"
       alignItems="center"
       flexDirection="column"
       width="100%"
@@ -166,18 +166,18 @@ if (load)
     >
       <Box
       display="flex"
-      justifyContent="space-between"
+      justifyContent="space-around"
       alignItems="center"
       flexDirection="column" // Adjusted for smaller screens
       width="100%"
       // zIndex={3}
       height="100%" // Adjusted to full height
       px={2} // Reduced padding for smaller screens
-      pt={3} pb={3} // Reduced padding for smaller screens
+      pt={1} pb={1} // Reduced padding for smaller screens
       sx={{
         '@media (min-width: 1000px)': {
           flexDirection: 'row',
-          justifyContent:"space-between", // Switch back to row layout for larger screens
+          justifyContent:"space-around", // Switch back to row layout for larger screens
           px: 4, // Restore padding for larger screens
           pt: 10, pb: 10, // Restore padding for larger screens
         },
