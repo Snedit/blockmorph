@@ -27,7 +27,7 @@
 - **Devjyoti Banerjee:** Frontend Developer
 - **Anindya Roy:** Cybersecurity Expert
 
-**Contact:** [Your GitHub Profile](https://github.com/Snedit)
+**Contact:** [GitHub Profile](https://github.com/Snedit)
 
 ## Problem Statement
 
