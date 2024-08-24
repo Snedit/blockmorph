@@ -207,3 +207,45 @@ def compile_contract():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+
+
+@app.route('/deploy', methods=['POST'])
+def deploy():
+    user_id = request.json['meta_acc']
+    user_dir = os.path.join(PROJECT_DIR, user_id)
+    
+   
+
+    try:
+        # Run the Brownie deploy script with the environment variable
+        result = subprocess.run(
+            ['brownie', 'run', 'scripts/deploy.py'],
+            cwd=user_dir,
+            capture_output=True,
+            text=True,
+            check=True,
+            
+        )
+
+        # Extract the deployment address from the result
+        deployment_address = None
+        for line in result.stdout.splitlines():
+            if "Contract deployed at address:" in line:
+                deployment_address = line.split(": ")[1].strip()
+                break
+
+        if deployment_address:
+            print("successfully deployed at: ", deployment_address)
+            return jsonify({
+            "status": True,
+            "deployment_address": deployment_address})
+        else:
+            return jsonify({"success":False,"message": "Deployment failed.", "details": result.stdout}), 500
+
+    except subprocess.CalledProcessError as e:
+        return jsonify({"message": "Deployment failed.", "details": e.stdout}), 500
+    except Exception as e:
+        return jsonify({"message": "An error occurred.", "details": str(e)}), 500
+
+
