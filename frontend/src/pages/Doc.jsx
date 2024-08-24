@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { Box, ListItem, Typography, Divider, Button, LinearProgress } from "@mui/material";
+import {
+  Box,
+  ListItem,
+  Typography,
+  Divider,
+  Button,
+  LinearProgress,
+} from "@mui/material";
 import { Code, shadesOfPurple, CopyBlock } from "react-code-blocks";
 import { HashLink } from "react-router-hash-link";
 import { FaDownload, FaClipboardList } from "react-icons/fa";
@@ -7,7 +14,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { IoLogoJavascript } from "react-icons/io5";
 import { FaReact } from "react-icons/fa";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 import { FaPython } from "react-icons/fa";
 import { useState } from "react";
 
@@ -15,8 +22,15 @@ const data = [
   {
     id: 1,
     text: "Initial setup",
-    description:
-      "Download the ABI from above and paste the files in the frontend folder.",
+    description: (
+      <ol style={{"marginLeft":"23px"}}>
+        <li>
+          Open the zip folder that has been just downloaded from 'Your Downloads'.
+        </li>
+        <li>Unzip and extract the files to your local IDE</li>
+        <li style={{"marginBottom":"0px"}}>Run the setup</li>
+      </ol>
+    ),
   },
   {
     id: 2,
@@ -35,13 +49,15 @@ function Doc() {
   const [contractAddress, setContractAddress] = useState("0x23762183687");
   const [contractName, setContractName] = useState("MyContract");
   const [snippets, setSnippets] = useState([]);
-  const [response, setResponse] = useState(JSON.parse(localStorage.getItem("data"))||[]);
+  const [response, setResponse] = useState(
+    JSON.parse(localStorage.getItem("data")) || []
+  );
   const [languages, setLanguages] = useState([
     "javascript",
     "reactjs",
     "python",
   ]);
-  const [loading,setLoading]=useState(true)
+  const [loading, setLoading] = useState(true);
   const singleLineSolidityCode = localStorage.getItem("solCode");
 
   const getResponse = async () => {
@@ -75,16 +91,16 @@ function Doc() {
         console.error("Error fetching response:", error);
       }
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   React.useEffect(() => {
-    if (response.length===0) getResponse();
+    if (response.length === 0) getResponse();
     // if(response.length===3) localStorage.setItem("data",JSON.stringify(response))
   }, []);
 
   React.useEffect(() => {
-    console.log("Response", response)
+    console.log("Response", response);
   }, [response]);
 
   React.useEffect(() => {
@@ -113,9 +129,9 @@ function Doc() {
         selectedFunction?.description
       }
         ${selectedFunction?.[language]}
-      ${toggle==2?'':'}'}
+      ${toggle == 2 ? "" : "}"}
         `;
-      stringOfID3+=toggle===2?`# ${response[toggle]?.other}`:``;
+      stringOfID3 += toggle === 2 ? `# ${response[toggle]?.other}` : ``;
 
       const temp = [
         {
@@ -168,7 +184,6 @@ contract = w3.eth.contract(address=${contractAddress}, abi=${contractName}['abi'
     }
   };
 
-  
   const handleToggleChange = (event, value) => {
     if (value !== null) {
       setToggle(value);
@@ -215,79 +230,83 @@ contract = w3.eth.contract(address=${contractAddress}, abi=${contractName}['abi'
   //     fetchData();
   //   }, [user]);
 
-const StyledListItem = styled(ListItem)(({ theme }) => ({
-  // backgroundColor: 'cyan',
-  borderRadius: '8px',
-  padding: '15px',
-  marginBottom: '10px',
-  transition: 'all 0.3s ease',
-  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-  '&:hover': {
-    backgroundColor: 'darkblue',
-    // backdropFilter: 'blur(20px)',
-    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+  const StyledListItem = styled(ListItem)(({ theme }) => ({
+    // backgroundColor: 'cyan',
+    borderRadius: "8px",
+    padding: "15px",
+    marginBottom: "10px",
+    transition: "all 0.3s ease",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+    "&:hover": {
+      backgroundColor: "darkblue",
+      // backdropFilter: 'blur(20px)',
+      boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.2)",
+    },
+  }));
 
-  },
-}));
-
-// Styled Typography for text
-const StyledTypography = styled(Typography)(({ theme }) => ({
-  color: 'white',
-  textDecoration: 'none',
-  '&:hover': {
+  // Styled Typography for text
+  const StyledTypography = styled(Typography)(({ theme }) => ({
     color: "white",
-    textDecoration: 'underline',
-  },
-}));
+    textDecoration: "none",
+    "&:hover": {
+      color: "white",
+      textDecoration: "underline",
+    },
+  }));
 
   if (loading)
     return (
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          width: '100vw',
-          flexDirection: 'column',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100vw",
+          flexDirection: "column",
         }}
       >
         <div className="loader">
-        <img src="b.svg" alt="Loading" className="loader-image" />
-        {/* <h1 className="text-gradient">Blocks Assemble...</h1> */}
-      </div>
-        <Typography className="text-gradient-2" variant="h4" mb={2} fontWeight={700} align="center">
+          <img src="b.svg" alt="Loading" className="loader-image" />
+          {/* <h1 className="text-gradient">Blocks Assemble...</h1> */}
+        </div>
+        <Typography
+          className="text-gradient-2"
+          variant="h4"
+          mb={2}
+          fontWeight={700}
+          align="center"
+        >
           Loading The Awesomeness...
         </Typography>
         {/* <LinearProgress sx={{ width: '30%', borderRadius: '2rem', mt: 2 }} /> */}
-        
       </Box>
     );
   return (
-    <Box 
+    <Box
       display="flex"
       justifyContent="space-between"
       mx="auto"
       height="calc(100vh - 4rem)"
       padding={2}
       sx={{
-        '&::-webkit-scrollbar': {
-          width: '2px',
+        "&::-webkit-scrollbar": {
+          width: "2px",
         },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: 'cyan',
-          borderRadius: '5px',
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "cyan",
+          borderRadius: "5px",
         },
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: 'transparent',
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
         },
         /* Firefox scrollbar styles */
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'cyan transparent',
-        
+        scrollbarWidth: "thin",
+        scrollbarColor: "cyan transparent",
       }}
     >
-      <Box className="gradient-bg-welcome"
+      <Box
+        className="gradient-bg-welcome"
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -309,22 +328,19 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
             p: 2,
           }}
         >
-    {data.map(({ id, text }) => (
-  <HashLink
-    key={id}
-    to={"#" + text.replace(/\s+/g, "-").toLowerCase()}
-    className="link-wrapper" 
-  >
-    <StyledListItem className="gradient-bg-footer">
-      <StyledTypography
-        variant="body1"
-        fontWeight={500}
-      >
-        {text}
-      </StyledTypography>
-    </StyledListItem>
-  </HashLink>
-))}
+          {data.map(({ id, text }) => (
+            <HashLink
+              key={id}
+              to={"#" + text.replace(/\s+/g, "-").toLowerCase()}
+              className="link-wrapper"
+            >
+              <StyledListItem className="gradient-bg-footer">
+                <StyledTypography variant="body1" fontWeight={500}>
+                  {text}
+                </StyledTypography>
+              </StyledListItem>
+            </HashLink>
+          ))}
         </Box>
         <Divider
           orientation="vertical"
@@ -347,7 +363,12 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
         >
           {data.map(({ id, text, description }) => (
             <Box key={id} id={text.replace(/\s+/g, "-").toLowerCase()}>
-              <Typography variant="h4" fontWeight={600} mt={1} className="text-gradient">
+              <Typography
+                variant="h4"
+                fontWeight={600}
+                mt={0}
+                className="text-gradient"
+              >
                 {text}
               </Typography>
               <Divider sx={{ mt: 1, mb: 2, bgcolor: "#057b6f" }} />
@@ -356,24 +377,12 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
               </Typography>
               {id === 1 && (
                 <Box
-                  my={2}
+                  my={1}
                   sx={{
                     display: "flex",
-                    gap: "5px",
+                    gap: "4px",
                   }}
-                >
-                  <Button style={{background: "#4391b6"}}
-                    variant="contained"
-                    startIcon={<FaDownload />}
-                    // onClick={() => handleArtifactDownload()}
-                  >
-                    Download Artifacts
-                  </Button>
-                  <img src="arrow.svg" alt="------>" />
-                  <Button style={{borderBlockColor: "#4391b6", color: "gold"}} variant="outlined" startIcon={<FaClipboardList />}>
-                    Copy files to frontend
-                  </Button>
-                </Box>
+                ></Box>
               )}
               {id === 2 && (
                 <Box
@@ -386,14 +395,14 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
                   <Typography variant="h5" fontWeight={600} mt={2}>
                     For JavaScript/React JS
                   </Typography>
-                  <CopyBlock 
+                  <CopyBlock
                     className="eth-card"
                     text={"npm install ethers"}
                     language={"shell"}
                     theme={shadesOfPurple}
-  //                   theme={{
-  //   codeBlock: 'eth-card', // Reference the custom style class
-  // }}
+                    //                   theme={{
+                    //   codeBlock: 'eth-card', // Reference the custom style class
+                    // }}
                     showLineNumbers={false}
                     customStyle={{
                       padding: "10px",

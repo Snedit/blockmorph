@@ -333,3 +333,7 @@ body {
   text-decoration: none;
   /* Remove underline from the link */
 }
+
+li{
+  margin-bottom: 5px;
+}
