@@ -140,7 +140,7 @@ networks:
     explorer: https://testnet.snowtrace.io/
     name: Avalanche Fuji C-Chain Testnet
 wallets:
-  from_key: "enter the acc pvt key here"
+  from_key: ""
 ''')
 
 
@@ -269,5 +269,8 @@ def generate_response():
     except ValueError as e:
         return jsonify({"error": str(e)}), 500
        
+def getWish():
+    print("gurudev pls help us win this.")
+
 if __name__ == '__main__':
     app.run(debug=False)
