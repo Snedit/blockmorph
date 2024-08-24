@@ -249,3 +249,25 @@ def deploy():
         return jsonify({"message": "An error occurred.", "details": str(e)}), 500
 
 
+
+@app.route('/generate', methods=['POST'])
+def generate_response():
+    if not request.is_json:
+        return jsonify({"error": "Request must be JSON"}), 400
+
+    data = request.get_json()
+    if 'language' not in data or 'code' not in data:
+        return jsonify({"error": "'language' and 'code' keys are required in the JSON request"}), 400
+    
+    language = data['language']
+    demo_code = data['code']
+    
+    try:
+        response_data = generate_documentation(demo_code, language)
+        return jsonify(response_data)
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 500
+       
+if __name__ == '__main__':
+    app.run(debug=False)
