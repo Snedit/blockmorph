@@ -54,22 +54,31 @@ function Home() {
   const isSmallScreen = useMediaQuery('(max-width:1000px)');
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
-
+  const [animation, setAnimation] = useState({});
   const handleMouseMove = (e) => {
     const { width, height, left, top } = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - left;
     const y = e.clientY - top;
     const rotateX = ((y / height) - 0.5) * 50; // Tilt image on Y-axis
     const rotateY = ((x / width) - 0.5) * -50; // Tilt image on X-axis
-
-    setRotateX(rotateX);
-    setRotateY(rotateY);
+setAnimation({
+      rotateX,
+      rotateY,
+    });
   };
 
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
+    const handleMouseLeave = () => {
+    setAnimation({
+      x: [-10, 10],  // Moves the image from -10px to 10px
+      transition: {
+        repeat: Infinity,  // Infinite loop
+        repeatType: "reverse",  // Reverses the direction of the animation each time it repeats
+        duration: 1,  // Duration of each animation cycle
+        ease: "easeInOut",  // Easing function for smooth movement
+      },
+    });
   };
+
   const navigate = useNavigate();
   // const defaultLink = document.querySelector("rt").value;
   const [inputLink, setInputLink] = useState("");
@@ -181,38 +190,17 @@ if (load)
         className="gradient-bg-transactions"
         boxShadow={'0 4px 30px rgba(209, 206, 206, 0.2)'}
         px={4} py={3}
-        borderRadius={4}
         mb={4}
         sx={{
           width: '100%',
           maxWidth: '650px',
+          borderRadius: '5rem',
           '& img': {
             maxWidth: '100%',
           },
         }}
       >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <Typography
-            align="center"
-            variant="h3"
-            sx={{
-              marginBottom: '8px',
-              '@media (max-width: 500px)': {
-                fontSize: '30px',
-              },
-              '@media (min-width: 500px) and (max-width: 800px)': {
-                fontSize: '50px',
-              },
-            }}
-          >
-            Unfolding the
-          </Typography>
-        </motion.div>
-
+        
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -232,7 +220,7 @@ if (load)
               },
             }}
           >
-            Transition
+            Morphing
           </Typography>
         </motion.div>
 
@@ -301,13 +289,13 @@ if (load)
               },
             }}
           >
-            in a Single Click!!!
+            in the simplest way!!!
           </Typography>
         </motion.div>
       </Box>
          <Box className="sidebar">
       <motion.img
-        src={isSmallScreen ? "home.svg" : "new.png"}
+        src={isSmallScreen ? "home.svg" : "home.png"}
         style={{
           display: 'block',
           width: '100%',
@@ -315,10 +303,11 @@ if (load)
           maxWidth: '600px',
           height: 'auto',
           cursor: 'pointer',
+          borderRadius: '100px',
           // transformStyle: 'preserve-3d', // Preserves 3D effect
         }}
         alt="Web2 --> Web3"
-        animate={{ rotateX, rotateY }} // Apply the rotation
+        animate={animation} // Apply the rotation
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         transition={{ type: 'spring', stiffness: 30, damping: 20 }}
@@ -376,8 +365,8 @@ if (load)
               </Typography>
               <div className="loader">
         <img src="b.svg" alt="Loading" className="loader-image" />
-        {/* <h1 className="text-gradient">Blocks Assemble...</h1> */}
       </div>
+
             </>
           ) : (
             <>
