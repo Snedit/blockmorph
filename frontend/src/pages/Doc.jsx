@@ -10,12 +10,6 @@ import { FaReact } from "react-icons/fa";
 import { styled } from '@mui/system';
 import { FaPython } from "react-icons/fa";
 import { useState } from "react";
-// import axios from 'axios';
-
-// import { collection, doc, getDoc, query, where } from 'firebase/firestore';
-// import { db } from '../../config/firebase';
-// import { AppContext } from '../../context/AppContext';
-// import { instance } from '../../config/axios';
 
 const data = [
   {
@@ -34,138 +28,6 @@ const data = [
   },
 ];
 
-// const abi = [
-//   {
-//     inputs: [],
-//     stateMutability: "nonpayable",
-//     type: "constructor",
-//   },
-//   {
-//     anonymous: false,
-//     inputs: [
-//       {
-//         indexed: true,
-//         internalType: "address",
-//         name: "user",
-//         type: "address",
-//       },
-//       {
-//         indexed: false,
-//         internalType: "string",
-//         name: "name",
-//         type: "string",
-//       },
-//     ],
-//     name: "NameSet",
-//     type: "event",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "address",
-//         name: "_user",
-//         type: "address",
-//       },
-//     ],
-//     name: "getUserName",
-//     outputs: [
-//       {
-//         internalType: "string",
-//         name: "",
-//         type: "string",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [],
-//     name: "owner",
-//     outputs: [
-//       {
-//         internalType: "address",
-//         name: "",
-//         type: "address",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "string",
-//         name: "_name",
-//         type: "string",
-//       },
-//     ],
-//     name: "setUserName",
-//     outputs: [],
-//     stateMutability: "nonpayable",
-//     type: "function",
-//   },
-//   {
-//     inputs: [
-//       {
-//         internalType: "address",
-//         name: "",
-//         type: "address",
-//       },
-//     ],
-//     name: "userNames",
-//     outputs: [
-//       {
-//         internalType: "string",
-//         name: "",
-//         type: "string",
-//       },
-//     ],
-//     stateMutability: "view",
-//     type: "function",
-//   },
-// ];
-
-// const solidity_code = `solidity
-// pragma solidity ^0.8.0;
-
-// contract Voting {
-//     struct Proposal {
-//         string name;
-//         uint256 upvotes;
-//         uint256 downvotes;
-//     }
-
-//     mapping(address => mapping(string => bool)) public votes;
-//     Proposal[] public proposals;
-
-//     function addProposal(string memory _name) public {
-//         proposals.push(Proposal(_name, 0, 0));
-//     }
-
-//     function upvote(uint256 _index) public {
-//         require(_index < proposals.length, "Invalid proposal index");
-//         require(!votes[msg.sender][proposals[_index].name], "Already upvoted");
-
-//         proposals[_index].upvotes++;
-//         votes[msg.sender][proposals[_index].name] = true;
-//     }
-
-//     function downvote(uint256 _index) public {
-//         require(_index < proposals.length, "Invalid proposal index");
-//         require(!votes[msg.sender][proposals[_index].name], "Already downvoted");
-
-//         proposals[_index].downvotes++;
-//         votes[msg.sender][proposals[_index].name] = true;
-//     }
-
-//     function getProposal(uint256 _index) public view returns (string memory, uint256, uint256) {
-//         require(_index < proposals.length, "Invalid proposal index");
-//         return (proposals[_index].name, proposals[_index].upvotes, proposals[_index].downvotes);
-//     }
-// }`;
-
-
-
 function Doc() {
   const [toggle, setToggle] = useState(0);
   const [selectedFunction, setSelectedFunction] = useState();
@@ -181,9 +43,6 @@ function Doc() {
   ]);
   const [loading,setLoading]=useState(true)
   const singleLineSolidityCode = localStorage.getItem("solCode");
-
-  //   const [languageIdx, setLanguageIdx] = useState(0);
-  //   const { user } = useContext(AppContext);
 
   const getResponse = async () => {
     for (let i = 0; i < languages.length; i++) {
@@ -309,7 +168,7 @@ contract = w3.eth.contract(address=${contractAddress}, abi=${contractName}['abi'
     }
   };
 
-  // Trigger the change using this function
+  
   const handleToggleChange = (event, value) => {
     if (value !== null) {
       setToggle(value);
@@ -454,7 +313,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
   <HashLink
     key={id}
     to={"#" + text.replace(/\s+/g, "-").toLowerCase()}
-    className="link-wrapper" // Add a class for additional styling if needed
+    className="link-wrapper" 
   >
     <StyledListItem className="gradient-bg-footer">
       <StyledTypography
