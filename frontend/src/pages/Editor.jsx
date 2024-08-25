@@ -83,7 +83,7 @@ function EditorPage() {
   const [code, setCode] = useState("");
   const [summary, setSummary] = useState("");
   const [tabsLayout, setTabsLayout] = useState([25, 45, 30]);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [contractName, setContractName] = useState("");
   const isTest = React.useContext(Context);
   const [ABI, setABI] = useState();
@@ -180,7 +180,7 @@ function EditorPage() {
       setIsDisabled(true);
     }
   };
-
+  const [x, setX]=useState(0);
   async function handleDownloadHardhat() {
     try {
       console.log(code);
@@ -195,9 +195,9 @@ function EditorPage() {
       // Step 1: Send Solidity code to the server and initiate a Brownie project
       const processResponse = await instance.post("/process_link", {
         solCode: code,
-        meta_id: `project${userAddress}`,
+        meta_id: `project${userAddress}${x}`,
       });
-
+      setX(prevX=>prevX + 1);
       if (!processResponse.data.success) {
         throw new Error("Failed to initiate Brownie project.");
       }
@@ -233,7 +233,7 @@ function EditorPage() {
         }
       );
 
-      if (deployResponse.data.status) {
+      if (deployResponse.data.status === true) {
         alert("Successfully deployed the contract.");
         alert(deployResponse.data.status);
         alert(`Contract deployed at ${deployResponse.data.deployment_address}`);
@@ -527,6 +527,9 @@ function EditorPage() {
                     );
                   })}
                 </Stepper>
+                {/* <Box sx={{color: "white", overflow: "auto"}}>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore incidunt veniam, repudiandae voluptatum omnis voluptates itaque alias vero deserunt, vel maxime laboriosam, autem quibusdam doloremque suscipit! Illo nam dicta quo?
+                </Box> */}
                 <LightButton
                   component={Link}
                   to={`https://remix.ethereum.org/?#code=${encode(

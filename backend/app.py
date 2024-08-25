@@ -140,7 +140,7 @@ networks:
     explorer: https://testnet.snowtrace.io/
     name: Avalanche Fuji C-Chain Testnet
 wallets:
-  from_key: ""
+  from_key: "7af1b95c5e0dc455e21a0cd0a1f40920ebd44094967c82d23e4a403ed19fd7ad"
 ''')
 
 
