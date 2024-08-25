@@ -21,7 +21,7 @@
 
 ## Team
 
-- **Soham Dey:** Blockchain Developer
+- **Soham De:** Blockchain Developer
 - **Sayan Genri:** Backend Developer
 - **Debopriyo Roy:** Backend Developer
 - **Devjyoti Banerjee:** Frontend Developer
