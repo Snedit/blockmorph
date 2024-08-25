@@ -81,7 +81,7 @@ BlockMorph offers a suite of tools and APIs to streamline the adoption of Web3 t
 
 ## Architecture
 
-![Architecture Diagram](link-to-architecture-diagram)
+![Architecture Diagram](https://theteatoast.github.io/workflow.png)
 
 The architecture includes a frontend built with React.js, a backend with Node.js, and smart contracts deployed on Polygon and Avalanche.
 
