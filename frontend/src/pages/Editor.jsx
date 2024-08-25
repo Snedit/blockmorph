@@ -96,11 +96,13 @@ function EditorPage() {
   const { idea } = useParams();
   const [additionalFeatures, setAdditionalFeatures] = useState("");
   const [solidityCode, setSolidityCode] = useState("");
+  const [disabled,setDisabled]=useState(false)
   console.log(idea);
 
   // console.log(selectedOption);
   const onTabClick = async () => {
     try {
+      setDisabled(true)
       const genAI = new GoogleGenerativeAI(
         "AIzaSyD4UE6-0QdB1QCtxXE-1k7EQv-3VHQJP1Q"
       );
@@ -139,6 +141,7 @@ function EditorPage() {
     } catch (error) {
       console.error("Error generating Solidity code: ", error);
     }
+    setDisabled(false)
   };
   console.log(code);
 
@@ -180,7 +183,7 @@ function EditorPage() {
       setIsDisabled(true);
     }
   };
-  const [x, setX]=useState(0);
+  const [x, setX]=useState(JSON.parse(localStorage.getItem("xvalue"))||0);
   async function handleDownloadHardhat() {
     try {
       console.log(code);
@@ -197,7 +200,7 @@ function EditorPage() {
         solCode: code,
         meta_id: `project${userAddress}${x}`,
       });
-      setX(prevX=>prevX + 1);
+      
       if (!processResponse.data.success) {
         throw new Error("Failed to initiate Brownie project.");
       }
@@ -209,7 +212,7 @@ function EditorPage() {
         "/compile",
         {
           contract_name: "contract.sol",
-          meta_acc: `project${userAddress}`,
+          meta_acc: `project${userAddress}${x}`,
         },
         {
           responseType: "application/json", // Important to handle binary data
@@ -226,7 +229,7 @@ function EditorPage() {
       const deployResponse = await instance.post(
         "/deploy",
         {
-          meta_acc: `project${userAddress}`,
+          meta_acc: `project${userAddress}${x}`,
         },
         {
           responseType: "application/json", // Important to handle binary data
@@ -238,6 +241,9 @@ function EditorPage() {
         alert(deployResponse.data.status);
         alert(`Contract deployed at ${deployResponse.data.deployment_address}`);
       }
+      setX(prevX=>{
+        return prevX + 1
+      });
     } catch (err) {
       console.error(err);
       alert("An error occurred: " + err.message);
@@ -257,6 +263,10 @@ function EditorPage() {
       }
     }
   }
+
+  useEffect(()=>{
+    localStorage.setItem("xvalue",x)
+  },[x])
 
   return (
     <>
@@ -365,7 +375,7 @@ function EditorPage() {
             </Box>
             {tabsLayout[0] === 25 ? (
               <Box mt={1}>
-                <GradientButton
+                <GradientButton isDisabled={disabled}
                   onClick={onTabClick}
                   text="Generate Code"
                   icon={<FaMagic />}
