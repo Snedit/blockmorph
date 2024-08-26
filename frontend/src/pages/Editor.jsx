@@ -236,6 +236,8 @@ function EditorPage() {
         }
       );
 
+      alert("Successfully deployed the contract.");
+
       if (deployResponse.data.status === true) {
         alert("Successfully deployed the contract.");
         alert(deployResponse.data.status);
@@ -471,13 +473,13 @@ function EditorPage() {
                 gap: 1,
               }}
             >
-              <YellowButton
+              {/* <YellowButton
                 text={loading ? "Loading...." : "Slither Check"}
                 fullWidth
                 isDisabled={isDisabled}
                 icon={<LuSplitSquareHorizontal color="black" />}
                 // onClick={() => checkSlitherVul()}
-              />
+              /> */}
               <YellowButton
                 text={loading ? "Loading...." : "Get Brownie"}
                 fullWidth
