@@ -25,7 +25,7 @@ function YellowButton({ text, isDisabled, icon, ...rest }) {
             boxShadow: "0 0 5px cyan, 0 0 10px cyan, 0 0 20px cyan",
           },
           "50%": {
-            boxShadow: "0 0 10px yellow, 0 0 20px yellow, 0 0 30px yellow",
+            boxShadow: "0 0 5px blue, 0 0 10px blue, 0 0 20px blue",
           },
           "100%": {
             boxShadow: "0 0 5px cyan, 0 0 10px cyan, 0 0 20px cyan",
@@ -34,8 +34,10 @@ function YellowButton({ text, isDisabled, icon, ...rest }) {
         animation: "glow 1.5s infinite ease-in-out",
       
         "&.Mui-disabled": {
-          background: "cyan",
-          color: "black"
+          background: "grey",
+          color: "white", 
+          animation: 'none',
+          transition: 'none',
         }
       }}
       variant="contained"

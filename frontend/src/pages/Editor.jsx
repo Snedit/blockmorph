@@ -83,7 +83,7 @@ function EditorPage() {
   const [code, setCode] = useState("");
   const [summary, setSummary] = useState("");
   const [tabsLayout, setTabsLayout] = useState([25, 45, 30]);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [contractName, setContractName] = useState("");
   const isTest = React.useContext(Context);
   const [ABI, setABI] = useState();
@@ -96,11 +96,13 @@ function EditorPage() {
   const { idea } = useParams();
   const [additionalFeatures, setAdditionalFeatures] = useState("");
   const [solidityCode, setSolidityCode] = useState("");
+  const [disabled,setDisabled]=useState(false)
   console.log(idea);
 
   // console.log(selectedOption);
   const onTabClick = async () => {
     try {
+      setDisabled(true)
       const genAI = new GoogleGenerativeAI(
         "AIzaSyD4UE6-0QdB1QCtxXE-1k7EQv-3VHQJP1Q"
       );
@@ -139,6 +141,7 @@ function EditorPage() {
     } catch (error) {
       console.error("Error generating Solidity code: ", error);
     }
+    setDisabled(false)
   };
   console.log(code);
 
@@ -181,18 +184,7 @@ function EditorPage() {
       setIsDisabled(true);
     }
   };
-
-  async function checkSlitherVul(solidityCode) {
-    try {
-      const response = await instance.post("/scan", {
-        code: solidityCode,
-      });
-      console.log("Slither analysis result:", response.data);
-    } catch (error) {
-      console.error("Error during Slither analysis:", error);
-    }
-  }
-
+  const [x, setX]=useState(JSON.parse(localStorage.getItem("xvalue"))||0);
   async function handleDownloadHardhat() {
     try {
       console.log(code);
@@ -207,9 +199,9 @@ function EditorPage() {
       // Step 1: Send Solidity code to the server and initiate a Brownie project
       const processResponse = await instance.post("/process_link", {
         solCode: code,
-        meta_id: `project${userAddress}`,
+        meta_id: `project${userAddress}${x}`,
       });
-
+      
       if (!processResponse.data.success) {
         throw new Error("Failed to initiate Brownie project.");
       }
@@ -221,7 +213,7 @@ function EditorPage() {
         "/compile",
         {
           contract_name: "contract.sol",
-          meta_acc: `project${userAddress}`,
+          meta_acc: `project${userAddress}${x}`,
         },
         {
           responseType: "application/json", // Important to handle binary data
@@ -238,18 +230,23 @@ function EditorPage() {
       const deployResponse = await instance.post(
         "/deploy",
         {
-          meta_acc: `project${userAddress}`,
+          meta_acc: `project${userAddress}${x}`,
         },
         {
           responseType: "application/json", // Important to handle binary data
         }
       );
 
-      if (deployResponse.data.status) {
+      alert("Successfully deployed the contract.");
+
+      if (deployResponse.data.status === true) {
         alert("Successfully deployed the contract.");
         alert(deployResponse.data.status);
         alert(`Contract deployed at ${deployResponse.data.deployment_address}`);
       }
+      setX(prevX=>{
+        return prevX + 1
+      });
     } catch (err) {
       console.error(err);
       alert("An error occurred: " + err.message);
@@ -269,6 +266,10 @@ function EditorPage() {
       }
     }
   }
+
+  useEffect(()=>{
+    localStorage.setItem("xvalue",x)
+  },[x])
 
   return (
     <>
@@ -377,7 +378,7 @@ function EditorPage() {
             </Box>
             {tabsLayout[0] === 25 ? (
               <Box mt={1}>
-                <GradientButton
+                <GradientButton isDisabled={disabled}
                   onClick={onTabClick}
                   text="Generate Code"
                   icon={<FaMagic />}
@@ -473,13 +474,13 @@ function EditorPage() {
                 gap: 1,
               }}
             >
-              <YellowButton
+              {/* <YellowButton
                 text={loading ? "Loading...." : "Slither Check"}
                 fullWidth
                 isDisabled={isDisabled}
                 icon={<LuSplitSquareHorizontal color="black" />}
-                onClick={() => checkSlitherVul(code)}
-              />
+                // onClick={() => checkSlitherVul()}
+              /> */}
               <YellowButton
                 text={loading ? "Loading...." : "Get Brownie"}
                 fullWidth
@@ -539,6 +540,9 @@ function EditorPage() {
                     );
                   })}
                 </Stepper>
+                {/* <Box sx={{color: "white", overflow: "auto"}}>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore incidunt veniam, repudiandae voluptatum omnis voluptates itaque alias vero deserunt, vel maxime laboriosam, autem quibusdam doloremque suscipit! Illo nam dicta quo?
+                </Box> */}
                 <LightButton
                   component={Link}
                   to={`https://remix.ethereum.org/?#code=${encode(
